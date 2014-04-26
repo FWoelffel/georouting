@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+        >
+    <Switch
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_autoBtn"
+            android:id="@+id/switch_AutoMode"
+            android:checked="false">
+    </Switch>
+    <com.CNAM.GeoRouting.ProfileListView
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/listView_Profiles"
+            android:visibility="visible">
+    </com.CNAM.GeoRouting.ProfileListView>
+
+</LinearLayout>
+
