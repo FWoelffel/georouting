@@ -1,20 +1,13 @@
 package com.CNAM.GeoRouting;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.*;
-import org.w3c.dom.ProcessingInstruction;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class MainScreen extends Activity {
-
-    private int dbg_count = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -22,13 +15,36 @@ public class MainScreen extends Activity {
         setContentView(R.layout.main);
         dbg_populate(10);
 
+        SharedPreferences prefs = getSharedPreferences(Preferences.APPNAME, 0);
+        if(prefs.getString(Preferences.LOGIN, "").equals(""))
+        {
+            startActivity(new Intent(this, LogInActivity.class));
+        }
+
+
+
+        (findViewById(R.id.listView_Profiles)).setActivated(prefs.getBoolean(Preferences.AUTO, false));
+
+        ((Switch)findViewById(R.id.switch_AutoMode)).setChecked(prefs.getBoolean(Preferences.AUTO, false));
         ((Switch)findViewById(R.id.switch_AutoMode)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                ((ProfileListView)findViewById(R.id.listView_Profiles)).setActive(b);
+                SharedPreferences settings = getSharedPreferences(Preferences.APPNAME, 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean(Preferences.AUTO, b);
+                editor.commit();
             }
         });
+    }
 
+    public void onStop()
+    {
+        SharedPreferences settings = getSharedPreferences(Preferences.APPNAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean(Preferences.AUTO, ((Switch)findViewById(R.id.switch_AutoMode)).isChecked());
+        editor.commit();
+
+        super.onStop();
     }
 
     private void dbg_populate (int _nb) {
