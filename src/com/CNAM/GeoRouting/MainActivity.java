@@ -12,6 +12,8 @@ import android.widget.*;
 
 public class MainActivity extends Activity implements Preferences {
 
+    public final static int KILLAPP = 1000;
+
     private SharedPreferences m_sharedPrefs;
 
     private Switch m_switch_AutoMode;
@@ -27,41 +29,50 @@ public class MainActivity extends Activity implements Preferences {
         m_switch_AutoMode = (Switch)findViewById(R.id.switch_AutoMode);
         m_profileListView = (ProfileListView)findViewById(R.id.listView_Profiles);
 
+        if (getIntent().getBooleanExtra("EXIT", false)) {
+            finish();
+        }
         // TODO Get real profile objects !!
         dbg_populate(10);
-
-        if(m_sharedPrefs.getString(Preferences.LOGIN, "").equals(""))
-        {
-            startActivity(new Intent(this, LogInActivity.class));
-        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        if(m_sharedPrefs.getString(Preferences.LOGIN, "").equals("")) {
+            startActivityForResult(new Intent(MainActivity.this, LogInActivity.class), 1);
+        }
         loadPreferences();
     }
 
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         savePreferences();
         super.onPause();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.mainactivityactions, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == MainActivity.KILLAPP) {
+                finish();
+            }
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
-                startActivity(new Intent(this, SettingsActivity.class));
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

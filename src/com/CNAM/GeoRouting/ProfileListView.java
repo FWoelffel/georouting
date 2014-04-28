@@ -31,8 +31,7 @@ public class ProfileListView extends ListView {
         m_active = _active;
     }
 
-    public boolean isActive()
-    {
+    public boolean isActive() {
         return m_active;
     }
 }

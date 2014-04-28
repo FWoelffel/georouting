@@ -3,4 +3,12 @@
     <string name="app_name">GeoRouting</string>
 
     <string name="label_autoBtn">Mode automatique</string>
+    <string name="switch_GPS_label">Enable GPS</string>
+    <string name="switch_Notifications_label">Enable Notification</string>
+    <string name="button_ChooseCalendar_label">Choose Calendar</string>
+    <string name="button_LogIn_label">Log In</string>
+    <string name="switch_AutoMode_label">Enable Automode</string>
+    <string name="textView_UserName_label">User Name</string>
+    <string name="textView_UserPassword_label">User Password</string>
+    <string name="button_ForgetMe_label">Forget Me</string>
 </resources>

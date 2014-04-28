@@ -27,21 +27,19 @@ public class Profile {
         return m_name;
     }
 
-    public boolean switchState()
-    {
+    public boolean switchState() {
+        // TODO Keep activated Profile in preferences
         m_activated = !m_activated;
         return isActivated();
     }
 
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         if(o instanceof Profile && ((Profile) o).getName().equals(m_name))
             return true;
         return false;
     }
 
-    public String toString()
-    {
+    public String toString() {
         return "Profile :\n\tName : " + getName() + "\n\tDescription : " + getDescription() + "\n\tState : " + (isActivated() ? "Active" : "Inactive");
     }
 }

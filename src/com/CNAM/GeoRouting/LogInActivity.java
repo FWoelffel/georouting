@@ -1,6 +1,7 @@
 package com.CNAM.GeoRouting;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -16,11 +17,12 @@ public class LogInActivity extends Activity implements Preferences {
 
     private SharedPreferences m_sharedPrefs;
 
-    private Button m_button_LogIn;
+    private Button m_button_LogIn, m_button_ForgetMe;
     private TextView m_textview_UserName, m_textview_UserPassword;
 
     private String m_token;
 
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
@@ -29,6 +31,7 @@ public class LogInActivity extends Activity implements Preferences {
         m_token = "";
 
         m_button_LogIn = (Button)findViewById(R.id.button_LogIn);
+        m_button_ForgetMe = (Button)findViewById(R.id.button_ForgetMe);
         m_textview_UserName = (TextView)findViewById(R.id.editText_UserName);
         m_textview_UserPassword = (TextView)findViewById(R.id.editText_UserName);
 
@@ -39,25 +42,41 @@ public class LogInActivity extends Activity implements Preferences {
         });
     }
 
+    @Override
     public void onResume() {
         super.onResume();
         loadPreferences();
     }
 
-    public void onLogInBtnClick()
-    {
+    @Override
+    public void onPause() {
+        if (m_sharedPrefs.getString(Preferences.TOKEN,"").equals("") || m_sharedPrefs.getString(Preferences.LOGIN, "").equals("")) {
+            setResult(MainActivity.KILLAPP, new Intent());
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (m_sharedPrefs.getString(Preferences.TOKEN,"").equals("") || m_sharedPrefs.getString(Preferences.LOGIN, "").equals("")) {
+            setResult(MainActivity.KILLAPP, new Intent());
+        }
+        super.onBackPressed();
+    }
+
+    public void onLogInBtnClick() {
         String userName = m_textview_UserName.getText().toString();
         String userPassword = m_textview_UserPassword.getText().toString();
-        m_token = getToken(userName, userPassword);
-        if ( !m_token.equals("") )
+        String token = getToken(userName, userPassword);
+        if ( !token.equals("") )
         {
+            m_token = token;
             savePreferences();
             this.finish();
         }
     }
 
-    private String getToken(String _userName, String _userPassword)
-    {
+    private String getToken(String _userName, String _userPassword) {
         //TODO Get token and store in shared prefs
         // Return token as a String if IDs are OK, else return ""
         return "MYBEAUTIFULTOKEN";

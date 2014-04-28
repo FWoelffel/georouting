@@ -15,7 +15,7 @@ public class SettingsActivity extends Activity implements Preferences{
 
     private SharedPreferences m_sharedPrefs;
     private Switch m_switch_AutoMode, m_switch_Notifications, m_switch_GPS;
-    private Button m_button_ChooseCalendar, m_button_LogIn;
+    private Button m_button_ChooseCalendar, m_button_ForgetMe;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,13 +26,13 @@ public class SettingsActivity extends Activity implements Preferences{
         m_switch_Notifications= ((Switch)findViewById(R.id.switch_Notifications));;
         m_switch_GPS = ((Switch)findViewById(R.id.switch_GPS));;
         m_button_ChooseCalendar = ((Button)findViewById(R.id.button_ChooseCalendar));
-        m_button_LogIn = ((Button)findViewById(R.id.button_LogIn));
+        m_button_ForgetMe = ((Button)findViewById(R.id.button_ForgetMe));
 
         // TODO Dispatch Listener's source
-        m_button_LogIn.setOnClickListener(new View.OnClickListener() {
+        m_button_ForgetMe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startLogInActivity();
+                forgetMe();
             }
         });
         m_button_ChooseCalendar.setOnClickListener(new View.OnClickListener() {
@@ -43,15 +43,13 @@ public class SettingsActivity extends Activity implements Preferences{
         });
     }
 
-    private void startLogInActivity() {
-        startActivity(new Intent(SettingsActivity.this, LogInActivity.class));
-    }
-
+    @Override
     public void onResume() {
         super.onResume();
         loadPreferences();
     }
 
+    @Override
     public void onPause() {
         savePreferences();
         super.onPause();
@@ -71,5 +69,13 @@ public class SettingsActivity extends Activity implements Preferences{
         editor.putBoolean(Preferences.GPS, m_switch_GPS.isChecked());
         editor.putBoolean(Preferences.NOTIFICATIONS, m_switch_Notifications.isChecked());
         editor.commit();
+    }
+
+    private void forgetMe() {
+        SharedPreferences.Editor editor = m_sharedPrefs.edit();
+        editor.putString(Preferences.LOGIN, "");
+        editor.putString(Preferences.TOKEN, "");
+        editor.commit();
+        finish();
     }
 }
