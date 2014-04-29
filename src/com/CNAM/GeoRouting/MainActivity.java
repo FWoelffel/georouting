@@ -9,7 +9,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.*;
 
-
 public class MainActivity extends Activity implements Preferences {
 
     public final static int KILLAPP = 1000;
@@ -29,11 +28,12 @@ public class MainActivity extends Activity implements Preferences {
         m_switch_AutoMode = (Switch)findViewById(R.id.switch_AutoMode);
         m_profileListView = (ProfileListView)findViewById(R.id.listView_Profiles);
 
-        if (getIntent().getBooleanExtra("EXIT", false)) {
-            finish();
-        }
-        // TODO Get real profile objects !!
-        dbg_populate(10);
+        m_switch_AutoMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                m_profileListView.setActive(!b);
+            }
+        });
     }
 
     @Override
@@ -79,21 +79,10 @@ public class MainActivity extends Activity implements Preferences {
         }
     }
 
-    @Deprecated
-    private void dbg_populate (int _nb) {
-        for(int i = 0; i < _nb; i++)
-            try {
-                m_profileListView.addProfile(new Profile("Name_" + i, "Description"));
-            } catch (ProfileException e) {
-                e.printStackTrace();
-            }
-        ((Profile)m_profileListView.getAdapter().getItem(0)).switchState();
-    }
-
     @Override
     public void loadPreferences() {
         SharedPreferences prefs = getSharedPreferences(Preferences.APPNAME, 0);
-        m_profileListView.setActivated(prefs.getBoolean(Preferences.AUTO, false));
+        m_profileListView.setActive(!prefs.getBoolean(Preferences.AUTO, false));
         m_switch_AutoMode.setChecked(prefs.getBoolean(Preferences.AUTO, false));
     }
 

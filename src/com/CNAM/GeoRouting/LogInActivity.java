@@ -10,16 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-/**
- * Created by fwoelffel on 27/04/14.
- */
 public class LogInActivity extends Activity implements Preferences {
 
     private SharedPreferences m_sharedPrefs;
-
     private Button m_button_LogIn, m_button_ForgetMe;
     private TextView m_textview_UserName, m_textview_UserPassword;
-
     private String m_token;
 
     @Override
@@ -29,12 +24,10 @@ public class LogInActivity extends Activity implements Preferences {
 
         m_sharedPrefs = getSharedPreferences(Preferences.APPNAME, 0);
         m_token = "";
-
         m_button_LogIn = (Button)findViewById(R.id.button_LogIn);
         m_button_ForgetMe = (Button)findViewById(R.id.button_ForgetMe);
         m_textview_UserName = (TextView)findViewById(R.id.editText_UserName);
         m_textview_UserPassword = (TextView)findViewById(R.id.editText_UserName);
-
         m_button_LogIn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 onLogInBtnClick();

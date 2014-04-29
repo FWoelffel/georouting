@@ -1,8 +1,5 @@
 package com.CNAM.GeoRouting;
 
-/**
- * Created by fwoelffel on 27/04/14.
- */
 public interface Preferences {
 
     public final static String AUTO             = "auto";
@@ -11,6 +8,8 @@ public interface Preferences {
     public final static String LOGIN            = "login";
     public final static String APPNAME          = "GeoRoutingApp";
     public final static String TOKEN            = "token";
+    public final static String CALENDAR         = "calendar";
+    public final static String PROFILE          = "profile";
 
     public void loadPreferences();
     public void savePreferences();

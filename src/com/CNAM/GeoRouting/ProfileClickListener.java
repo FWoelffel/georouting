@@ -14,11 +14,8 @@ public class ProfileClickListener implements AdapterView.OnItemClickListener {
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
         if (!m_adapter.getItem(i).equals(m_adapter.getActivated())) {
-            if (m_adapter.getActivated() != null)
-                m_adapter.getActivated().switchState();
-            m_adapter.getItem(i).switchState();
+            m_adapter.setActivated(i);
             m_adapter.notifyDataSetChanged();
         }
     }
