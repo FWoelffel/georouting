@@ -1,3 +1,7 @@
 build.xml
 local.properties
 out/
+.classpath
+.project
+.settings/org.eclipse.jdt.core.prefs
+bin/

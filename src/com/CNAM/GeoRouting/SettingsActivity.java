@@ -1,8 +1,10 @@
 package com.CNAM.GeoRouting;
 
 import android.app.Activity;
+import android.content.ContentUris;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -39,6 +41,10 @@ public class SettingsActivity extends Activity implements Preferences{
             @Override
             public void onClick(View view) {
                 // TODO Launch Calendar Chooser
+            	Uri.Builder builder = Uri.parse("content://com.android.calendar/time/").buildUpon();
+        		ContentUris.appendId(builder, System.currentTimeMillis());
+        		Intent intent = new Intent(Intent.ACTION_VIEW).setData(builder.build());
+        		startActivity(intent);
             }
         });
     }
