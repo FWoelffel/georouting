@@ -27,10 +27,8 @@ public class Profile {
         return m_name;
     }
 
-    public boolean switchState() {
-        // TODO Keep activated Profile in preferences
-        m_activated = !m_activated;
-        return isActivated();
+    public void setActivated(boolean _activated) {
+        m_activated = _activated;
     }
 
     public boolean equals(Object o) {

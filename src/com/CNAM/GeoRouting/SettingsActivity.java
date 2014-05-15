@@ -10,27 +10,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
 
-/**
- * Created by fwoelffel on 27/04/14.
- */
-public class SettingsActivity extends Activity implements Preferences{
+public class SettingsActivity extends Activity implements Preferences {
 
     private SharedPreferences m_sharedPrefs;
     private Switch m_switch_AutoMode, m_switch_Notifications, m_switch_GPS;
     private Button m_button_ChooseCalendar, m_button_ForgetMe;
 
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
 
         m_sharedPrefs = getSharedPreferences(Preferences.APPNAME, 0);
         m_switch_AutoMode = ((Switch)findViewById(R.id.switch_AutoMode));
-        m_switch_Notifications= ((Switch)findViewById(R.id.switch_Notifications));;
-        m_switch_GPS = ((Switch)findViewById(R.id.switch_GPS));;
+        m_switch_Notifications= ((Switch)findViewById(R.id.switch_Notifications));
+        m_switch_GPS = ((Switch)findViewById(R.id.switch_GPS));
         m_button_ChooseCalendar = ((Button)findViewById(R.id.button_ChooseCalendar));
         m_button_ForgetMe = ((Button)findViewById(R.id.button_ForgetMe));
 
-        // TODO Dispatch Listener's source
         m_button_ForgetMe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

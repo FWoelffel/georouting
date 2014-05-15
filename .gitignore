@@ -5,3 +5,7 @@ out/
 .project
 .settings/org.eclipse.jdt.core.prefs
 bin/
+gen/com/CNAM/GeoRouting
+gen/com/example/GeoRouting
+project.properties
+gen/

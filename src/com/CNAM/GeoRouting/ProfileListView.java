@@ -29,6 +29,7 @@ public class ProfileListView extends ListView {
 
     public void setActive (boolean _active) {
         m_active = _active;
+        m_adapter.setActive(m_active);
     }
 
     public boolean isActive() {
