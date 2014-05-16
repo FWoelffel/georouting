@@ -16,7 +16,7 @@ public class ProfileAdapter extends ArrayAdapter<Profile> implements Preferences
     private boolean m_active;
 
     public ProfileAdapter(Context context, ArrayList<Profile> objects) {
-        super(context, R.layout.rowlayout, objects);
+        super(context, R.layout.profilelayout, objects);
         m_sharedPrefs = context.getSharedPreferences(Preferences.APPNAME, 0);
         // TODO Get real profile objects !!
         dbg_populate(10);
@@ -79,7 +79,7 @@ public class ProfileAdapter extends ArrayAdapter<Profile> implements Preferences
 
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.rowlayout, parent, false);
+        View rowView = inflater.inflate(R.layout.profilelayout, parent, false);
 
         TextView name = (TextView) rowView.findViewById(R.id.name);
         name.setText(getItem(position).getName());

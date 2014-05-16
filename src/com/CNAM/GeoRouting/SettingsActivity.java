@@ -37,11 +37,7 @@ public class SettingsActivity extends Activity implements Preferences {
         m_button_ChooseCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO Launch Calendar Chooser
-            	Uri.Builder builder = Uri.parse("content://com.android.calendar/time/").buildUpon();
-        		ContentUris.appendId(builder, System.currentTimeMillis());
-        		Intent intent = new Intent(Intent.ACTION_VIEW).setData(builder.build());
-        		startActivity(intent);
+        		startActivity(new Intent(SettingsActivity.this, CalendarChoosingActivity.class));
             }
         });
     }
