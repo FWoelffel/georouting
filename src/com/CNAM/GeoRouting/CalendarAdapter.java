@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.CalendarContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,15 +33,15 @@ public class CalendarAdapter extends ArrayAdapter<Calendar> implements Preferenc
     }
 
     private void loadCalendars() {
-        String projection[] = {"_id", "calendar_displayName"};
+        String projection[] = {CalendarContract.Calendars._ID, CalendarContract.Calendars.CALENDAR_DISPLAY_NAME};
         Uri calendars;
         calendars = Uri.parse("content://com.android.calendar/calendars");
         Cursor managedCursor = m_contentResolver.query(calendars, projection, null, null, null);
 
-        if (managedCursor.moveToFirst()){
+        if (managedCursor != null && managedCursor.moveToFirst()){
             do{
-                int id = managedCursor.getInt(managedCursor.getColumnIndex(projection[0]));
-                String name = managedCursor.getString(managedCursor.getColumnIndex(projection[1]));
+                int id = managedCursor.getInt(managedCursor.getColumnIndex(CalendarContract.Calendars._ID));
+                String name = managedCursor.getString(managedCursor.getColumnIndex(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME));
                 add(new Calendar(id, name));
             } while(managedCursor.moveToNext());
             managedCursor.close();
