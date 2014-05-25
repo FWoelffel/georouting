@@ -110,7 +110,7 @@ public class ProfileAdapter extends ArrayAdapter<Profile> implements Preferences
     public void loadPreferences() {
         m_active = !m_sharedPrefs.getBoolean(Preferences.AUTO, true);
         String profileName = m_sharedPrefs.getString(Preferences.PROFILE, "");
-        if (profileName.equals("")) {
+        if (profileName.equals("") || getByName(profileName) == null) {
             getItem(0).setActivated(true);
             savePreferences();
         }
