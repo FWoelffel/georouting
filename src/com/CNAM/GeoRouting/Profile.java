@@ -3,23 +3,18 @@ package com.CNAM.GeoRouting;
 public class Profile {
 
     private boolean m_activated = false;
-    private final String m_description;
+    private final int m_id;
     private final String m_name;
 
-    public Profile (String _name, String _description) throws ProfileException {
-        if (_name.equals("") || _name.equals(null)) throw new ProfileException();
+    public Profile (int _id, String _name) throws ProfileException {
+        if (_id == -1) throw new ProfileException();
         m_name = _name;
-        m_description = _description;
+        m_id = _id;
     }
 
     public boolean isActivated()
     {
         return m_activated;
-    }
-
-    public String getDescription()
-    {
-        return m_description;
     }
 
     public String getName()
@@ -38,6 +33,6 @@ public class Profile {
     }
 
     public String toString() {
-        return "Profile :\n\tName : " + getName() + "\n\tDescription : " + getDescription() + "\n\tState : " + (isActivated() ? "Active" : "Inactive");
+        return "Profile :\n\tName : " + getName() + "\n\tState : " + (isActivated() ? "Active" : "Inactive");
     }
 }

@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 
 public class ProfileAdapter extends ArrayAdapter<Profile> implements Preferences{
@@ -18,8 +21,7 @@ public class ProfileAdapter extends ArrayAdapter<Profile> implements Preferences
     public ProfileAdapter(Context context, ArrayList<Profile> objects) {
         super(context, R.layout.profilelayout, objects);
         m_sharedPrefs = context.getSharedPreferences(Preferences.APPNAME, 0);
-        // TODO Get real profile objects !!
-        dbg_populate(10);
+        populate();
         loadPreferences();
     }
 
@@ -84,9 +86,6 @@ public class ProfileAdapter extends ArrayAdapter<Profile> implements Preferences
         TextView name = (TextView) rowView.findViewById(R.id.name);
         name.setText(getItem(position).getName());
 
-        TextView description = (TextView) rowView.findViewById(R.id.description);
-        description.setText(getItem(position).getDescription());
-
         ImageView state = (ImageView) rowView.findViewById(R.id.state);
         if (getItem(position).isActivated())
             state.setVisibility(View.VISIBLE);
@@ -95,14 +94,21 @@ public class ProfileAdapter extends ArrayAdapter<Profile> implements Preferences
         return rowView;
     }
 
-    @Deprecated
-    private void dbg_populate (int _nb) {
-        for(int i = 0; i < _nb; i++) {
+    private void populate () {
+        JSONArray profiles = NetworkManager.getInstance(m_sharedPrefs.getString(Preferences.CREDENTIAL, "")).getProfiles();
+        for (int i = 0; i < profiles.length(); i++) {
+            int profileID = -1;
+            String profileName = "";
             try {
-                addProfile(new Profile("Name_" + i, "Description"));
+                profileID = profiles.getJSONObject(i).getInt("id");
+                profileName = profiles.getJSONObject(i).getString("name");
+                addProfile(new Profile(profileID, profileName));
+            } catch (JSONException e) {
+                e.printStackTrace();
             } catch (ProfileException e) {
                 e.printStackTrace();
             }
+
         }
     }
 
@@ -115,7 +121,7 @@ public class ProfileAdapter extends ArrayAdapter<Profile> implements Preferences
             savePreferences();
         }
         else {
-            getByName(profileName).setActivated(true);
+            // getByName(profileName).setActivated(true);
         }
     }
 
