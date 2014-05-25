@@ -71,7 +71,7 @@ public class SettingsActivity extends Activity implements Preferences {
     private void forgetMe() {
         SharedPreferences.Editor editor = m_sharedPrefs.edit();
         editor.putString(Preferences.LOGIN, "");
-        editor.putString(Preferences.TOKEN, "");
+        editor.putString(Preferences.CREDENTIAL, "");
         editor.commit();
         finish();
     }

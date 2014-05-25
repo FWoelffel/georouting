@@ -27,7 +27,7 @@ public class LogInActivity extends Activity implements Preferences {
         m_button_LogIn = (Button)findViewById(R.id.button_LogIn);
         m_button_ForgetMe = (Button)findViewById(R.id.button_ForgetMe);
         m_textview_UserName = (TextView)findViewById(R.id.editText_UserName);
-        m_textview_UserPassword = (TextView)findViewById(R.id.editText_UserName);
+        m_textview_UserPassword = (TextView)findViewById(R.id.editText_UserPassword);
         m_button_LogIn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 onLogInBtnClick();
@@ -43,7 +43,7 @@ public class LogInActivity extends Activity implements Preferences {
 
     @Override
     public void onPause() {
-        if (m_sharedPrefs.getString(Preferences.TOKEN,"").equals("") || m_sharedPrefs.getString(Preferences.LOGIN, "").equals("")) {
+        if (m_sharedPrefs.getString(Preferences.CREDENTIAL,"").equals("") || m_sharedPrefs.getString(Preferences.LOGIN, "").equals("")) {
             setResult(MainActivity.KILLAPP, new Intent());
         }
         super.onPause();
@@ -51,7 +51,7 @@ public class LogInActivity extends Activity implements Preferences {
 
     @Override
     public void onBackPressed() {
-        if (m_sharedPrefs.getString(Preferences.TOKEN,"").equals("") || m_sharedPrefs.getString(Preferences.LOGIN, "").equals("")) {
+        if (m_sharedPrefs.getString(Preferences.CREDENTIAL,"").equals("") || m_sharedPrefs.getString(Preferences.LOGIN, "").equals("")) {
             setResult(MainActivity.KILLAPP, new Intent());
         }
         super.onBackPressed();
@@ -60,19 +60,12 @@ public class LogInActivity extends Activity implements Preferences {
     public void onLogInBtnClick() {
         String userName = m_textview_UserName.getText().toString();
         String userPassword = m_textview_UserPassword.getText().toString();
-        String token = getToken(userName, userPassword);
-        if ( !token.equals("") )
+        if ( NetworkManager.getInstance().authenticate(userName, userPassword) )
         {
-            m_token = token;
+            m_token = NetworkManager.getInstance().getCredential();
             savePreferences();
             this.finish();
         }
-    }
-
-    private String getToken(String _userName, String _userPassword) {
-        //TODO Get token and store in shared prefs
-        // Return token as a String if IDs are OK, else return ""
-        return "MYBEAUTIFULTOKEN";
     }
 
     @Override
@@ -85,7 +78,7 @@ public class LogInActivity extends Activity implements Preferences {
     public void savePreferences() {
         SharedPreferences.Editor editor = m_sharedPrefs.edit();
         editor.putString(Preferences.LOGIN, m_textview_UserName.getText().toString());
-        editor.putString(Preferences.TOKEN, m_token);
+        editor.putString(Preferences.CREDENTIAL, m_token);
         editor.commit();
     }
 }

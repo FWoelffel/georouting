@@ -19,7 +19,7 @@
             android:id="@+id/editText_UserName"
             android:layout_gravity="center_horizontal"
     		android:inputType="textPersonName"
-    		android:digits="abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"/>
+    		android:digits="-_abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
