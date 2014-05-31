@@ -70,7 +70,7 @@ public class ProfileAdapter extends ArrayAdapter<Profile> implements Preferences
     }
 
     public void setActivated (Profile _profile) {
-        if (_profile != null) {
+        if (_profile != null && NetworkManager.getInstance().setAppliedProfile(_profile.getId())) {
             for(Profile p : getProfiles()) {
                 p.setActivated(false);
             }
@@ -96,33 +96,34 @@ public class ProfileAdapter extends ArrayAdapter<Profile> implements Preferences
 
     private void populate () {
         JSONArray profiles = NetworkManager.getInstance(m_sharedPrefs.getString(Preferences.CREDENTIAL, "")).getProfiles();
-        for (int i = 0; i < profiles.length(); i++) {
-            int profileID = -1;
-            String profileName = "";
-            try {
-                profileID = profiles.getJSONObject(i).getInt("id");
-                profileName = profiles.getJSONObject(i).getString("name");
-                addProfile(new Profile(profileID, profileName));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (ProfileException e) {
-                e.printStackTrace();
-            }
+        if (profiles != null)
+            for (int i = 0; i < profiles.length(); i++) {
+                int profileID = -1;
+                String profileName = "";
+                try {
+                    profileID = profiles.getJSONObject(i).getInt("id");
+                    profileName = profiles.getJSONObject(i).getString("name");
+                    addProfile(new Profile(profileID, profileName));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (ProfileException e) {
+                    e.printStackTrace();
+                }
 
-        }
+            }
     }
 
     @Override
     public void loadPreferences() {
         m_active = !m_sharedPrefs.getBoolean(Preferences.AUTO, true);
         String profileName = m_sharedPrefs.getString(Preferences.PROFILE, "");
-        if (profileName.equals("") || getByName(profileName) == null) {
+        /*if (profileName.equals("") || getByName(profileName) == null) {
             getItem(0).setActivated(true);
             savePreferences();
         }
         else {
             // getByName(profileName).setActivated(true);
-        }
+        }*/
     }
 
     @Override
