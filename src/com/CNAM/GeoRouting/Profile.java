@@ -22,6 +22,10 @@ public class Profile {
         return m_name;
     }
 
+    public int getId() {
+        return m_id;
+    }
+
     public void setActivated(boolean _activated) {
         m_activated = _activated;
     }
