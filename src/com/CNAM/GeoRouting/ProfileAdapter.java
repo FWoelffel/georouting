@@ -116,20 +116,11 @@ public class ProfileAdapter extends ArrayAdapter<Profile> implements Preferences
     @Override
     public void loadPreferences() {
         m_active = !m_sharedPrefs.getBoolean(Preferences.AUTO, true);
-        String profileName = m_sharedPrefs.getString(Preferences.PROFILE, "");
-        /*if (profileName.equals("") || getByName(profileName) == null) {
-            getItem(0).setActivated(true);
-            savePreferences();
-        }
-        else {
-            // getByName(profileName).setActivated(true);
-        }*/
     }
 
     @Override
     public void savePreferences() {
         SharedPreferences.Editor editor = m_sharedPrefs.edit();
-        editor.putString(Preferences.PROFILE, getActivated().getName());
         editor.commit();
     }
 

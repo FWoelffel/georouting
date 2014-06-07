@@ -2,38 +2,122 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="center_vertical">
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:gravity="top">
 
-    <Switch
+    <LinearLayout
+            android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/switch_AutoMode_label"
-            android:id="@+id/switch_AutoMode"
-            android:layout_gravity="center_horizontal"/>
-    <Switch
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/switch_GPS_label"
-            android:id="@+id/switch_GPS"
-            android:layout_gravity="center_horizontal"/>
-    <Switch
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/switch_Notifications_label"
-            android:id="@+id/switch_Notifications"
-            android:layout_gravity="center_horizontal"/>
-    <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/button_ChooseCalendar_label"
-            android:id="@+id/button_ChooseCalendar"
-            android:layout_gravity="center_horizontal"/>
-    <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/button_ForgetMe_label"
-            android:id="@+id/button_ForgetMe"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_height="wrap_content">
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:layout_margin="2px">
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Connecté en tant que :"
+                    android:id="@+id/settings_login_label" android:layout_weight="1"/>
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="LOGIN"
+                    android:id="@+id/settings_textview_login_value" android:layout_gravity="right" android:layout_weight="1"
+                    android:gravity="right"/>
+        </LinearLayout>
+        <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Se déconnecter"
+                android:id="@+id/button_disconnect"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <Switch
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Automatique"
+                android:id="@+id/switch_AutoMode"/>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" android:visibility="visible" android:id="@+id/automatic_childs"
+                android:layout_margin="5dp">
+            <Switch
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:text="Critères géographiques"
+                    android:id="@+id/settings_switch_geo_criterias" android:layout_weight="1"/>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" android:id="@+id/geographic_childs"
+                    android:layout_margin="15dp">
+                <Button style="?android:attr/buttonStyleSmall" android:layout_width="fill_parent"
+                        android:layout_height="wrap_content" android:text="Choisir lieu de travail"
+                        android:id="@+id/button2" android:layout_gravity="center_horizontal"/>
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent" android:layout_weight="1">
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Moins de 2 km"
+                            android:id="@+id/settings_textview_geo_criterias_lt2km_label" android:layout_weight="1"/>
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Medium Text"
+                            android:id="@+id/settings_textview_geo_criterias_lt2km_value" android:layout_weight="1" android:layout_gravity="right"/>
+                </LinearLayout>
+            </LinearLayout>
+            <Switch android:layout_width="fill_parent" android:layout_height="0dp" android:text="Critères calendaires"
+                    android:id="@+id/settings_switch_calendar_criterias" android:layout_weight="1"/>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" android:id="@+id/calendar_childs" android:layout_margin="15dp">
+                <Button style="?android:attr/buttonStyleSmall" android:layout_width="fill_parent"
+                        android:layout_height="wrap_content" android:text=" Choisir calendrier"
+                        android:id="@+id/settings_button_choose_calendar" android:layout_gravity="center_horizontal"/>
+                <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                              android:layout_height="fill_parent" android:layout_weight="1" android:id="@+id/linearLayout">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="Soir"
+                              android:id="@+id/settings_textview_calendar_criterias_evening_label" android:layout_weight="1"/>
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="Medium Text"
+                              android:id="@+id/settings_textview_calendar_criterias_evening_label" android:layout_weight="1" android:layout_gravity="right"/>
+                </LinearLayout>
+                <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                              android:layout_height="fill_parent" android:layout_weight="1" android:id="@+id/linearLayout2">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="Week-End"
+                              android:id="@+id/settings_textview_calendar_criterias_weekend_label" android:layout_weight="1"/>
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="Medium Text"
+                              android:id="@+id/settings_textview_calendar_criterias_weekend_value" android:layout_weight="1" android:layout_gravity="right"/>
+                </LinearLayout>
+                <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                              android:layout_height="fill_parent" android:layout_weight="1"
+                              android:id="@+id/linearLayout3">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="Occupé"
+                              android:id="@+id/settings_textview_calendar_criterias_busy_label" android:layout_weight="1"/>
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="Medium Text"
+                              android:id="@+id/settings_textview_calendar_criterias_busy_value" android:layout_weight="1" android:layout_gravity="right"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

@@ -25,7 +25,7 @@ public class LogInActivity extends Activity implements Preferences {
         m_sharedPrefs = getSharedPreferences(Preferences.APPNAME, 0);
         m_token = "";
         m_button_LogIn = (Button)findViewById(R.id.button_LogIn);
-        m_button_ForgetMe = (Button)findViewById(R.id.button_ForgetMe);
+        m_button_ForgetMe = (Button)findViewById(R.id.button_disconnect);
         m_textview_UserName = (TextView)findViewById(R.id.editText_UserName);
         m_textview_UserPassword = (TextView)findViewById(R.id.editText_UserPassword);
         m_button_LogIn.setOnClickListener(new View.OnClickListener() {
