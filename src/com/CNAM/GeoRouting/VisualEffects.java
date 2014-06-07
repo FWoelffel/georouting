@@ -10,12 +10,12 @@ public class VisualEffects {
 
     public static void toggleContent(Context ctx, View v, boolean b)
     {
-        if (!b && v.isShown())
+        if (!b )
         {
             //VisualEffects.slide_up(ctx, v);
             v.setVisibility(View.GONE);
         }
-        else if (b && !v.isShown()){
+        else if (b ){
             v.setVisibility(View.VISIBLE);
             VisualEffects.slide_down(ctx, v);
         }

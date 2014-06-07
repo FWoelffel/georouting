@@ -86,8 +86,11 @@ public class SettingsActivity extends Activity implements Preferences {
     public void loadPreferences() {
         ((TextView)findViewById(R.id.settings_textview_login_value)).setText(m_sharedPrefs.getString(Preferences.LOGIN, ""));
         m_switch_AutoMode.setChecked(m_sharedPrefs.getBoolean(Preferences.AUTO, false));
+        toggleContent(m_automatic_childs, m_sharedPrefs.getBoolean(Preferences.AUTO, false));
         m_switch_GPS.setChecked(m_sharedPrefs.getBoolean(Preferences.GPS, false));
+        toggleContent(m_geographic_childs, m_sharedPrefs.getBoolean(Preferences.GPS, false));
         m_switch_calendar.setChecked(m_sharedPrefs.getBoolean(Preferences.CALENDAR, false));
+        toggleContent(m_calendar_childs, m_sharedPrefs.getBoolean(Preferences.CALENDAR, false));
     }
 
     @Override
