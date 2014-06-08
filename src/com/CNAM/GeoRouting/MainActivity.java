@@ -42,6 +42,10 @@ public class MainActivity extends Activity implements Preferences {
         if(m_sharedPrefs.getString(Preferences.LOGIN, "").equals("")) {
             startActivityForResult(new Intent(MainActivity.this, LogInActivity.class), 1);
         }
+        else
+        {
+            startService(new Intent(this, BackgroundService.class));
+        }
         loadPreferences();
     }
 
