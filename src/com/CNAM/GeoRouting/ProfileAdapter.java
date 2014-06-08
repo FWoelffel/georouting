@@ -65,10 +65,6 @@ public class ProfileAdapter extends ArrayAdapter<Profile> implements Preferences
         setActivated(getItem(_index));
     }
 
-    public void setActivated (String _profileName) {
-        setActivated(getByName(_profileName));
-    }
-
     public void setActivated (Profile _profile) {
         if (_profile != null && NetworkManager.getInstance().setAppliedProfile(_profile.getId())) {
             for(Profile p : getProfiles()) {
