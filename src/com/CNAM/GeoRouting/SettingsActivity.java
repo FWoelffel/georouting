@@ -15,7 +15,7 @@ public class SettingsActivity extends Activity implements Preferences {
 
     private SharedPreferences m_sharedPrefs;
     private Switch m_switch_AutoMode, m_switch_GPS, m_switch_calendar;
-    private Button m_button_ChooseCalendar, m_button_ForgetMe;
+    private Button m_button_ChooseCalendar, m_button_ForgetMe, m_button_SetHome;
     private View m_automatic_childs, m_calendar_childs, m_geographic_childs;
 
     @Override
@@ -29,6 +29,7 @@ public class SettingsActivity extends Activity implements Preferences {
         m_switch_calendar = ((Switch)findViewById(R.id.settings_switch_calendar_criterias));
         m_button_ChooseCalendar = ((Button)findViewById(R.id.settings_button_choose_calendar));
         m_button_ForgetMe = ((Button)findViewById(R.id.button_disconnect));
+        m_button_SetHome = ((Button)findViewById(R.id.settings_button_set_home));
 
         m_automatic_childs = findViewById(R.id.automatic_childs);
         m_geographic_childs = findViewById(R.id.geographic_childs);
@@ -38,6 +39,13 @@ public class SettingsActivity extends Activity implements Preferences {
             @Override
             public void onClick(View view) {
                 forgetMe();
+            }
+        });
+
+        m_button_SetHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setHome();
             }
         });
 
@@ -107,13 +115,21 @@ public class SettingsActivity extends Activity implements Preferences {
 
     private void forgetMe() {
         SharedPreferences.Editor editor = m_sharedPrefs.edit();
-        editor.putString(Preferences.LOGIN, "");
-        editor.putString(Preferences.CREDENTIAL, "");
-        editor.putBoolean(Preferences.AUTO, false);
-        editor.putBoolean(Preferences.GPS, false);
-        editor.putBoolean(Preferences.CALENDAR, false);
+        editor.clear();
         editor.commit();
         finish();
+    }
+
+    private void setHome()
+    {
+        Igps gps = GpsFactory.get_GpsFactory(this).get_Interface();
+        gps.updatePosition();
+        double lat = gps.get_position().get_latitude();
+        double lon = gps.get_position().get_longitude();
+        SharedPreferences.Editor editor = m_sharedPrefs.edit();
+        editor.putFloat(Preferences.GPS_LAT, (float)lat);
+        editor.putFloat(Preferences.GPS_LON, (float)lon);
+        editor.commit();
     }
 
     private void toggleContent(View v, boolean b)

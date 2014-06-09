@@ -1,10 +1,14 @@
 package com.CNAM.GeoRouting;
-public class Singleton_gps {
 
-	private static Singleton_gps _instance;
+/**
+ * Created by guillaumekoehrlen on 14/05/2014.
+ */
+public class Singleton_gps
+{
+    private static Singleton_gps _instance;
 
     private Position _home = null;
-    private Position _lastPosition = null;
+    private Position _lastPostion = null;
     private boolean _estEnVoiture = false;
 
 
@@ -23,20 +27,20 @@ public class Singleton_gps {
     }
 
     public Position get_lastPostion() {
-        return _lastPosition;
+        return _lastPostion;
     }
 
-    public void set_lastPosition(Position lastPosition)
+    public void set_lastPostion(Position lastPostion)
     {
-        if(this._lastPosition != null)   //d�j� une position d'enregistr�
+        if(this._lastPostion != null)   //déjà une position d'enregistré
         {
-            double nbMiliSeconde = lastPosition.get_currentDate().getTime()- this._lastPosition.get_currentDate().getTime();
+            double nbMiliSeconde = lastPostion.get_currentDate().getTime()- this._lastPostion.get_currentDate().getTime();
             double difHeure = nbMiliSeconde/(double)(1000*60*60);
 
-            double lat1 = Math.toRadians(_lastPosition.get_latitude());
-            double lat2 = Math.toRadians(lastPosition.get_latitude());
-            double lon1 = Math.toRadians(_lastPosition.get_longitude());
-            double lon2 = Math.toRadians(lastPosition.get_longitude());
+            double lat1 = Math.toRadians(_lastPostion.get_latitude());
+            double lat2 = Math.toRadians(lastPostion.get_latitude());
+            double lon1 = Math.toRadians(_lastPostion.get_longitude());
+            double lon2 = Math.toRadians(lastPostion.get_longitude());
 
             //sortie en km
             double distance = distanceKM(lat1, lon1, lat2, lon2);
@@ -52,7 +56,7 @@ public class Singleton_gps {
                 kmParHeure = (int) Math.round(coef * distance);
             }
 
-            if (kmParHeure >= GpsFactory._vitesseMini)
+            if (kmParHeure >= GpsFactory._vitesseMini && kmParHeure <= GpsFactory._vitesseMax)
                 _estEnVoiture = true;
             else
                 _estEnVoiture = false;
@@ -60,7 +64,7 @@ public class Singleton_gps {
         else
             this._estEnVoiture = false;
 
-        this._lastPosition = lastPosition;
+        this._lastPostion = lastPostion;
     }
 
     public double distanceKM(double lat1, double lon1, double lat2, double lon2)

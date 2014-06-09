@@ -16,9 +16,10 @@ import java.util.Calendar;
 public class BackgroundService extends Service implements Preferences
 {
     private static final String TAG = BackgroundService.class.getSimpleName();
-    private static final long UPDATE_INTERVAL = 15 * 1000;
+    private static final long UPDATE_INTERVAL = 60 * 1000;
     private static final long DELAY_INTERVAL = 0;
 
+    Igps m_gps = null;
     SharedPreferences m_sharedPrefs;
 
     private Timer timer;
@@ -40,11 +41,14 @@ public class BackgroundService extends Service implements Preferences
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+        m_gps = GpsFactory.get_GpsFactory(getApplicationContext()).get_Interface();
+
         timer.scheduleAtFixedRate(
                 new TimerTask() {
                     public void run() {
                         if(m_sharedPrefs.getBoolean(Preferences.AUTO, false))
                         {
+                            m_gps.updatePosition();
                             Log.d(TAG, "Applied profile's ID is : " + NetworkManager.getInstance().getAppliedProfileID());
                             int toApply = whatProfileShouldBeApplied();
                             NetworkManager.getInstance().setAppliedProfile(toApply);
@@ -106,7 +110,7 @@ public class BackgroundService extends Service implements Preferences
             }
             if(gps_crit)
             {
-                if (day == Calendar.WEDNESDAY && false) // TODO : distance > 2km
+                if (day == Calendar.WEDNESDAY && m_gps.is_nearHome()) // TODO : distance > 2km
                 {
                     Log.d(TAG, "This profile should be applied : HomeWorker");
                     return m_sharedPrefs.getInt(Preferences.CALENDAR_HOMEWORKING, 14);
@@ -123,13 +127,13 @@ public class BackgroundService extends Service implements Preferences
         }
         if(gps_crit)
         {
-            if (false) // TODO : speed > 50kmh
+            if (m_gps.is_movement()) // TODO : speed > 50kmh
             {
                 Log.d(TAG, "This profile should be applied : OnTheRoad");
                 return m_sharedPrefs.getInt(Preferences.GPS_SPEED_GT50KMH, 12);
             }
 
-            if (false) // TODO : distance > 2km
+            if (m_gps.is_nearHome()) // TODO : distance > 2km
             {
                 Log.d(TAG, "This profile should be applied : OffSite");
                 return m_sharedPrefs.getInt(Preferences.GPS_DIST_GT2KM, 13);

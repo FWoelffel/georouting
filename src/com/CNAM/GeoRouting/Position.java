@@ -1,12 +1,14 @@
 package com.CNAM.GeoRouting;
+
+import java.io.Console;
 import java.util.Date;
 
 /**
- * Created by guillaumekoehrlen on 14/05/2014.
+ * class Position
  */
-public class Position {
-
-	private Date _currentDate;
+public class Position
+{
+    private Date _currentDate;
     private double _latitude;
     private double _longitude;
 
@@ -47,10 +49,11 @@ public class Position {
     public void set_longitude(double _longitude) {
         this._longitude = _longitude;
     }
-    
+
     @Override
     public String toString()
     {
-    	return get_longitude() + "; " + get_latitude();
+        return get_latitude()+" "+get_longitude();
+
     }
 }
