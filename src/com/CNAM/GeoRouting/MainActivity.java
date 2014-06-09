@@ -18,6 +18,8 @@ public class MainActivity extends Activity implements Preferences {
     private Switch m_switch_AutoMode;
     private ProfileListView m_profileListView;
 
+    private Intent m_service;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,8 +34,12 @@ public class MainActivity extends Activity implements Preferences {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 m_profileListView.setActive(!b);
+                savePreferences();
             }
         });
+
+        m_service = new Intent(this, BackgroundService.class);
+        startService(m_service);
     }
 
     @Override
@@ -42,11 +48,8 @@ public class MainActivity extends Activity implements Preferences {
         if(m_sharedPrefs.getString(Preferences.LOGIN, "").equals("")) {
             startActivityForResult(new Intent(MainActivity.this, LogInActivity.class), 1);
         }
-        else
-        {
-            startService(new Intent(this, BackgroundService.class));
-        }
         loadPreferences();
+        m_profileListView.refreshList();
     }
 
     @Override
