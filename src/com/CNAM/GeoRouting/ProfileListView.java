@@ -20,19 +20,13 @@ public class ProfileListView extends ListView {
         setOnItemClickListener(m_clickListener);
     }
 
-    public boolean addProfile (Profile _profile) {
-        boolean b = m_adapter.addProfile(_profile);
-        if (b)
-            m_adapter.notifyDataSetChanged();
-        return b;
-    }
-
     public void setActive (boolean _active) {
         m_active = _active;
         m_adapter.setActive(m_active);
     }
 
-    public boolean isActive() {
-        return m_active;
+    public void refreshList()
+    {
+        m_adapter.refreshList();
     }
 }

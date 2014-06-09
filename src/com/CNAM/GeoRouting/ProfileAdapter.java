@@ -43,13 +43,21 @@ public class ProfileAdapter extends ArrayAdapter<Profile> implements Preferences
         return arr;
     }
 
-    public Profile getByName(String _profileName) {
-        for(Profile p : getProfiles()) {
-            if (p.getName().equals(_profileName)) {
-                return p;
+    public void refreshList() {
+        for(Profile p : getProfiles())
+        {
+            remove(p);
+        }
+        populate();
+        int id = NetworkManager.getInstance().getAppliedProfileID();
+        for(Profile p : getProfiles())
+        {
+            if (p.getId() == id)
+            {
+                setActivated(p);
             }
         }
-        return null;
+
     }
 
     public Profile getActivated () {
