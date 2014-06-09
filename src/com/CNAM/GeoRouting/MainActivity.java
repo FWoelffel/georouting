@@ -48,8 +48,32 @@ public class MainActivity extends Activity implements Preferences {
         if(m_sharedPrefs.getString(Preferences.LOGIN, "").equals("")) {
             startActivityForResult(new Intent(MainActivity.this, LogInActivity.class), 1);
         }
-        loadPreferences();
-        m_profileListView.refreshList();
+        else {
+            loadPreferences();
+            Thread timer = new Thread() { //new thread
+                public void run() {
+                    Boolean b = true;
+                    try {
+                        do {
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    // TODO Auto-generated method stub
+
+                                    m_profileListView.refreshList();
+                                }
+                            });
+                            sleep(60000);
+                        }
+                        while (b == true);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                };
+            };
+            timer.start();
+        }
     }
 
     @Override

@@ -21,7 +21,7 @@ public class ProfileAdapter extends ArrayAdapter<Profile> implements Preferences
     public ProfileAdapter(Context context, ArrayList<Profile> objects) {
         super(context, R.layout.profilelayout, objects);
         m_sharedPrefs = context.getSharedPreferences(Preferences.APPNAME, 0);
-        populate();
+        refreshList();
         loadPreferences();
     }
 
@@ -46,6 +46,7 @@ public class ProfileAdapter extends ArrayAdapter<Profile> implements Preferences
     public void refreshList() {
         for(Profile p : getProfiles())
         {
+            p.setActivated(false);
             remove(p);
         }
         populate();
@@ -54,7 +55,7 @@ public class ProfileAdapter extends ArrayAdapter<Profile> implements Preferences
         {
             if (p.getId() == id)
             {
-                setActivated(p);
+                p.setActivated(true);
             }
         }
 
@@ -136,4 +137,5 @@ public class ProfileAdapter extends ArrayAdapter<Profile> implements Preferences
     {
         return m_active;
     }
+
 }
