@@ -79,6 +79,10 @@ public class BackgroundService extends Service implements Preferences
 
     public int whatProfileShouldBeApplied()
     {
+
+        boolean gps_crit = m_sharedPrefs.getBoolean(Preferences.GPS, false);
+        boolean cal_crit = m_sharedPrefs.getBoolean(Preferences.CALENDAR, false);
+
         int day = CalendarTool.getDay();
         Log.d(TAG, "\tDay : " + day);
         int hour = CalendarTool.getHour();
@@ -86,35 +90,50 @@ public class BackgroundService extends Service implements Preferences
         boolean busy = CalendarTool.isBusy(getApplicationContext(), m_sharedPrefs.getInt(Preferences.CALENDAR_ID, -1));
         Log.d(TAG, "\tBusy : " + busy);
 
-        if(day == Calendar.SATURDAY || day == Calendar.SUNDAY)
+        if(cal_crit)
         {
-            Log.d(TAG, "This profile should be applied : Weekend");
-            return m_sharedPrefs.getInt(Preferences.CALENDAR_WEEKEND, 10);
+            if (day == Calendar.SATURDAY || day == Calendar.SUNDAY) {
+                Log.d(TAG, "This profile should be applied : Weekend");
+                return m_sharedPrefs.getInt(Preferences.CALENDAR_WEEKEND, 10);
+            }
+            if (hour > 20 && hour < 7) {
+                Log.d(TAG, "This profile should be applied : Evening");
+                return m_sharedPrefs.getInt(Preferences.CALENDAR_EVENING, 11);
+            }
+            if (busy) {
+                Log.d(TAG, "This profile should be applied : Busy");
+                return m_sharedPrefs.getInt(Preferences.CALENDAR_BUSY, 10);
+            }
+            if(gps_crit)
+            {
+                if (day == Calendar.WEDNESDAY && false) // TODO : distance > 2km
+                {
+                    Log.d(TAG, "This profile should be applied : HomeWorker");
+                    return m_sharedPrefs.getInt(Preferences.CALENDAR_HOMEWORKING, 14);
+                }
+            }
+            else
+            {
+                if (day == Calendar.WEDNESDAY)
+                {
+                    Log.d(TAG, "This profile should be applied : HomeWorker");
+                    return m_sharedPrefs.getInt(Preferences.CALENDAR_HOMEWORKING, 14);
+                }
+            }
         }
-        if (hour > 20 && hour < 7)
+        if(gps_crit)
         {
-            Log.d(TAG, "This profile should be applied : Evening");
-            return m_sharedPrefs.getInt(Preferences.CALENDAR_EVENING, 11);
-        }
-        if (busy)
-        {
-            Log.d(TAG, "This profile should be applied : Busy");
-            return m_sharedPrefs.getInt(Preferences.CALENDAR_BUSY, 10);
-        }
-        if (false) // TODO : speed > 50kmh
-        {
-            Log.d(TAG, "This profile should be applied : OnTheRoad");
-            return m_sharedPrefs.getInt(Preferences.GPS_SPEED_GT50KMH, 12);
-        }
-        if (day == Calendar.WEDNESDAY && false) // TODO : distance > 2km
-        {
-            Log.d(TAG, "This profile should be applied : HomeWorker");
-            return m_sharedPrefs.getInt(Preferences.CALENDAR_HOMEWORKING, 14);
-        }
-        if (false) // TODO : distance > 2km
-        {
-            Log.d(TAG, "This profile should be applied : OffSite");
-            return m_sharedPrefs.getInt(Preferences.GPS_DIST_GT2KM, 13);
+            if (false) // TODO : speed > 50kmh
+            {
+                Log.d(TAG, "This profile should be applied : OnTheRoad");
+                return m_sharedPrefs.getInt(Preferences.GPS_SPEED_GT50KMH, 12);
+            }
+
+            if (false) // TODO : distance > 2km
+            {
+                Log.d(TAG, "This profile should be applied : OffSite");
+                return m_sharedPrefs.getInt(Preferences.GPS_DIST_GT2KM, 13);
+            }
         }
 
         Log.d(TAG, "This profile should be applied : Default");
