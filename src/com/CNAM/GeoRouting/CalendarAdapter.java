@@ -106,7 +106,7 @@ public class CalendarAdapter extends ArrayAdapter<Calendar> implements Preferenc
 
     @Override
     public void loadPreferences() {
-        int calendarID = m_sharedPrefs.getInt(Preferences.CALENDAR, 0);
+        int calendarID = m_sharedPrefs.getInt(Preferences.CALENDAR_ID, 0);
         if (calendarID == 0) {
             getItem(0).setActivated(true);
             savePreferences();
@@ -119,7 +119,7 @@ public class CalendarAdapter extends ArrayAdapter<Calendar> implements Preferenc
     @Override
     public void savePreferences() {
         SharedPreferences.Editor editor = m_sharedPrefs.edit();
-        editor.putInt(Preferences.CALENDAR, getActivated().getID());
+        editor.putInt(Preferences.CALENDAR_ID, getActivated().getID());
         editor.commit();
     }
 }

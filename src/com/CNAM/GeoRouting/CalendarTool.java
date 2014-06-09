@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
 
+import java.util.*;
+import java.util.Calendar;
+
 /**
  * Created by fwoelffel on 22/05/14.
  */
@@ -43,6 +46,16 @@ public class CalendarTool {
             managedCursor.close();
         }
         return false;
+    }
+
+    static int getHour()
+    {
+        return java.util.Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+    }
+
+    static int getDay()
+    {
+        return java.util.Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
     }
 
 }
