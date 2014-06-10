@@ -261,11 +261,13 @@ public class NetworkManager {
     public int getAppliedProfileID() {
 
         JSONObject routingState = getRoutingState();
-
-        try {
-            return routingState.getJSONObject("appliedProfile").getInt("id");
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if(routingState != null)
+        {
+            try {
+                return routingState.getJSONObject("appliedProfile").getInt("id");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
         return -1;
     }

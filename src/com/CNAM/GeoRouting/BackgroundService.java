@@ -100,7 +100,7 @@ public class BackgroundService extends Service implements Preferences
                 Log.d(TAG, "This profile should be applied : Weekend");
                 return m_sharedPrefs.getInt(Preferences.CALENDAR_WEEKEND, 10);
             }
-            if (hour > 20 && hour < 7) {
+            if (hour > 20 || hour < 7) {
                 Log.d(TAG, "This profile should be applied : Evening");
                 return m_sharedPrefs.getInt(Preferences.CALENDAR_EVENING, 11);
             }
