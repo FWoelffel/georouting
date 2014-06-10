@@ -122,12 +122,7 @@ public class SettingsActivity extends Activity implements Preferences {
     {
         Igps gps = GpsFactory.get_GpsFactory(this).get_Interface();
         gps.updatePosition();
-        double lat = gps.get_position().get_latitude();
-        double lon = gps.get_position().get_longitude();
-        SharedPreferences.Editor editor = m_sharedPrefs.edit();
-        editor.putFloat(Preferences.GPS_LAT, (float)lat);
-        editor.putFloat(Preferences.GPS_LON, (float)lon);
-        editor.commit();
+        gps.set_Home(gps.get_position().get_latitude(), gps.get_position().get_longitude());
     }
 
     private void toggleContent(View v, boolean b)
