@@ -19,6 +19,7 @@ public class MainActivity extends Activity implements Preferences {
     private ProfileListView m_profileListView;
 
     private Intent m_service;
+    private Thread m_timer_refresh;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,27 @@ public class MainActivity extends Activity implements Preferences {
 
         m_service = new Intent(this, BackgroundService.class);
         startService(m_service);
+
+        m_timer_refresh = new Thread() { //new thread
+            public void run() {
+                Boolean b = true;
+                try {
+                    do {
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                m_profileListView.refreshList();
+                            }
+                        });
+                        sleep(60000);
+                    }
+                    while (b == true);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            };
+        };
     }
 
     @Override
@@ -50,34 +72,14 @@ public class MainActivity extends Activity implements Preferences {
         }
         else {
             loadPreferences();
-            Thread timer = new Thread() { //new thread
-                public void run() {
-                    Boolean b = true;
-                    try {
-                        do {
 
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    // TODO Auto-generated method stub
-
-                                    m_profileListView.refreshList();
-                                }
-                            });
-                            sleep(60000);
-                        }
-                        while (b == true);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                };
-            };
-            timer.start();
+            m_timer_refresh.start();
         }
     }
 
     @Override
     public void onPause() {
+        m_timer_refresh.();
         savePreferences();
         super.onPause();
     }
