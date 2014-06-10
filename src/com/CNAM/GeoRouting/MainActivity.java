@@ -55,12 +55,9 @@ public class MainActivity extends Activity implements Preferences {
                     Boolean b = true;
                     try {
                         do {
-
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    // TODO Auto-generated method stub
-
                                     m_profileListView.refreshList();
                                 }
                             });

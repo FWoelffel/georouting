@@ -60,7 +60,6 @@ public class SettingsActivity extends Activity implements Preferences {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 toggleContent(m_automatic_childs, b);
-                savePreferences();
             }
         });
 
@@ -68,7 +67,6 @@ public class SettingsActivity extends Activity implements Preferences {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 toggleContent(m_geographic_childs, b);
-                savePreferences();
             }
         });
 
@@ -76,9 +74,9 @@ public class SettingsActivity extends Activity implements Preferences {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 toggleContent(m_calendar_childs, b);
-                savePreferences();
             }
         });
+
     }
 
     @Override
