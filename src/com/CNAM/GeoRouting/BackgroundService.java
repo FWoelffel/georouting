@@ -84,7 +84,7 @@ public class BackgroundService extends Service implements Preferences
     public int whatProfileShouldBeApplied()
     {
 
-        boolean gps_crit = m_sharedPrefs.getBoolean(Preferences.GPS, false);
+        boolean gps_crit = (m_sharedPrefs.getBoolean(Preferences.GPS, false) && m_gps.canGetLocation());
         boolean cal_crit = m_sharedPrefs.getBoolean(Preferences.CALENDAR, false);
 
         int day = CalendarTool.getDay();
@@ -100,7 +100,7 @@ public class BackgroundService extends Service implements Preferences
                 Log.d(TAG, "This profile should be applied : Weekend");
                 return m_sharedPrefs.getInt(Preferences.CALENDAR_WEEKEND, 10);
             }
-            if (hour > 20 && hour < 7) {
+            if (hour > 20 || hour < 7) {
                 Log.d(TAG, "This profile should be applied : Evening");
                 return m_sharedPrefs.getInt(Preferences.CALENDAR_EVENING, 11);
             }
@@ -110,7 +110,7 @@ public class BackgroundService extends Service implements Preferences
             }
             if(gps_crit)
             {
-                if (day == Calendar.WEDNESDAY && m_gps.is_nearHome()) // TODO : distance > 2km
+                if (day == Calendar.WEDNESDAY && !m_gps.is_nearHome()) // TODO : distance > 2km
                 {
                     Log.d(TAG, "This profile should be applied : HomeWorker");
                     return m_sharedPrefs.getInt(Preferences.CALENDAR_HOMEWORKING, 14);
@@ -133,7 +133,7 @@ public class BackgroundService extends Service implements Preferences
                 return m_sharedPrefs.getInt(Preferences.GPS_SPEED_GT50KMH, 12);
             }
 
-            if (m_gps.is_nearHome()) // TODO : distance > 2km
+            if (!m_gps.is_nearHome()) // TODO : distance > 2km
             {
                 Log.d(TAG, "This profile should be applied : OffSite");
                 return m_sharedPrefs.getInt(Preferences.GPS_DIST_GT2KM, 13);

@@ -49,15 +49,20 @@ public class ProfileAdapter extends ArrayAdapter<Profile> implements Preferences
             p.setActivated(false);
             remove(p);
         }
-        populate();
+
         int id = NetworkManager.getInstance().getAppliedProfileID();
-        for(Profile p : getProfiles())
+        if (id != -1)
         {
-            if (p.getId() == id)
+            populate();
+            for(Profile p : getProfiles())
             {
-                p.setActivated(true);
+                if (p.getId() == id)
+                {
+                    p.setActivated(true);
+                }
             }
         }
+
 
     }
 

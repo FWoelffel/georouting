@@ -3,6 +3,7 @@ package com.CNAM.GeoRouting;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import  android.location.*;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -13,7 +14,8 @@ import java.util.Date;
 /**
  * Created by guillaumekoehrlen on 07/05/2014.
  */
-public class gps extends Service implements LocationListener,Igps
+public class gps extends Service implements LocationListener,Igps,Preferences
+
 {
     private static gps _instance = null;
 
@@ -28,10 +30,14 @@ public class gps extends Service implements LocationListener,Igps
 
     private Singleton_gps _singleton = Singleton_gps.getInstance();
 
+    private SharedPreferences m_sharedPrefs;
+
 
     private gps(Context context)
     {
         this._mContext = context;
+        m_sharedPrefs = this._mContext.getSharedPreferences(Preferences.APPNAME, 0);
+        loadPreferences();
     }
 
     public static gps get_Instance(Context context)
@@ -165,6 +171,10 @@ public class gps extends Service implements LocationListener,Igps
     @Override
     public void set_Home(double latitude, double longitude) {
         _singleton.set_home(new Position(longitude,latitude,null));
+        SharedPreferences.Editor editor = m_sharedPrefs.edit();
+        editor.putFloat(Preferences.GPS_LAT, (float)latitude);
+        editor.putFloat(Preferences.GPS_LON, (float)longitude);
+        editor.commit();
     }
 
     @Override
@@ -209,6 +219,17 @@ public class gps extends Service implements LocationListener,Igps
     }
     @Override
     public void onProviderDisabled(String s) {
+    }
+
+    @Override
+    public void loadPreferences() {
+        float lat = m_sharedPrefs.getFloat(Preferences.GPS_LAT, -1);
+        float lon = m_sharedPrefs.getFloat(Preferences.GPS_LON, -1);
+        set_Home(lat, lon);
+    }
+
+    @Override
+    public void savePreferences() {
     }
 }
 
