@@ -44,7 +44,6 @@ public class MainActivity extends Activity implements Preferences {
 
         m_timer_refresh = new Thread() { //new thread
             public void run() {
-                Boolean b = true;
                 try {
                     do {
 
@@ -56,12 +55,13 @@ public class MainActivity extends Activity implements Preferences {
                         });
                         sleep(60000);
                     }
-                    while (b == true);
+                    while (!isInterrupted());
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             };
         };
+        m_timer_refresh.start();
     }
 
     @Override
@@ -72,14 +72,11 @@ public class MainActivity extends Activity implements Preferences {
         }
         else {
             loadPreferences();
-
-            m_timer_refresh.start();
         }
     }
 
     @Override
     public void onPause() {
-        m_timer_refresh.();
         savePreferences();
         super.onPause();
     }
